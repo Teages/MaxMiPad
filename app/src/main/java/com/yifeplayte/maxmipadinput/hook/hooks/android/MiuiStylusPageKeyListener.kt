@@ -7,32 +7,25 @@ import com.yifeplayte.maxmipadinput.hook.hooks.BaseHook
 
 object MiuiStylusPageKeyListener : BaseHook() {
     override fun init() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            findMethod("com.miui.server.input.stylus.MiuiStylusPageKeyListener") {
-                name == "isPageKeyEnable"
-            }.hookReturnConstant(false)
-        } else {
-            findMethod("com.miui.server.stylus.MiuiStylusPageKeyListener") {
-                name == "isPageKeyEnable"
-            }.hookReturnConstant(false)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            findMethod("com.miui.server.input.stylus.MiuiStylusPageKeyListener") {
-                name == "needInterceptBeforeDispatching"
-            }.hookReturnConstant(false)
-        } else {
-            findMethod("com.miui.server.stylus.MiuiStylusPageKeyListener") {
-                name == "needInterceptBeforeDispatching"
-            }.hookReturnConstant(false)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            findMethod("com.miui.server.input.stylus.MiuiStylusPageKeyListener") {
-                name == "shouldInterceptKey"
-            }.hookReturnConstant(false)
-        } else {
-            findMethod("com.miui.server.stylus.MiuiStylusPageKeyListener") {
-                name == "shouldInterceptKey"
-            }.hookReturnConstant(false)
-        }
+        val pageKeyListenerClassName =
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                "com.miui.server.input.stylus.MiuiStylusPageKeyListener"
+            else "com.miui.server.stylus.MiuiStylusPageKeyListener"
+
+        findMethod(pageKeyListenerClassName) {
+            name == "isPageKeyEnable"
+        }.hookReturnConstant(false)
+
+        findMethod(pageKeyListenerClassName) {
+            name == "needInterceptBeforeDispatching"
+        }.hookReturnConstant(false)
+
+        findMethod(pageKeyListenerClassName) {
+            name == "interceptScreenShotKey"
+        }.hookReturnConstant(false)
+
+        findMethod(pageKeyListenerClassName) {
+            name == "interceptQuickNoteKey"
+        }.hookReturnConstant(false)
     }
 }
